@@ -3,7 +3,7 @@
 #include "stack.h"
 
 
-StackErrors ADD(stack_t *stk)
+StackErrors StackAdd(stack_t *stk)
 {
     int a = 0, b = 0;
 
@@ -13,7 +13,7 @@ StackErrors ADD(stack_t *stk)
     return StackPush(stk, a + b);
 }
 
-StackErrors SUB(stack_t *stk)
+StackErrors StackSub(stack_t *stk)
 {
     int a = 0, b = 0;
 
@@ -24,7 +24,7 @@ StackErrors SUB(stack_t *stk)
     return StackPush(stk, a - b);
 }
 
-StackErrors MUL(stack_t *stk)
+StackErrors StackMul(stack_t *stk)
 {
     int a = 0, b = 0;
 
@@ -34,7 +34,7 @@ StackErrors MUL(stack_t *stk)
     return StackPush(stk, a * b);
 }
 
-StackErrors DIV(stack_t *stk)
+StackErrors StackDiv(stack_t *stk)
 {
     int a = 0, b = 0;
 
@@ -44,7 +44,7 @@ StackErrors DIV(stack_t *stk)
     return StackPush(stk, a / b);
 }
 
-StackErrors OUT(stack_t *stk)
+StackErrors StackOut(stack_t *stk)
 {
     int a = 0;
 
@@ -54,7 +54,7 @@ StackErrors OUT(stack_t *stk)
     return NO_ERRORS;
 }
 
-StackErrors SQRT(stack_t *stk)
+StackErrors StackSqrt(stack_t *stk)
 {
     int a = 0;
 
@@ -64,9 +64,18 @@ StackErrors SQRT(stack_t *stk)
     return NO_ERRORS;
 }
 
-StackErrors HLT(stack_t *stk)
+void StackDump(stack_t *stk)
 {
-    StackDestroy(stk);
+    putchar('\n');
+    printf("Stack info:\n");
+    printf("Capacity : %d\n", stk->capacity);
+    printf("Elements amount : %d\n", stk->elemets_amount);
+    printf("Data :");
 
-    return NO_ERRORS;
+    for (int i = 0; i < stk->capacity; i++)
+        printf(" %d", stk->data[i]);
+
+    printf("\n\n");
+    
+    return;
 }

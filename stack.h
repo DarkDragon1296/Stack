@@ -29,18 +29,18 @@ StackErrors StackPop(stack_t *stk, int *result);
 
 StackErrors StackDestroy(stack_t *stk);
 
-StackErrors ADD(stack_t *stk);
+StackErrors StackAdd(stack_t *stk);
 
-StackErrors SUB(stack_t *stk);
+StackErrors StackSub(stack_t *stk);
 
-StackErrors MUL(stack_t *stk);
+StackErrors StackMul(stack_t *stk);
 
-StackErrors DIV(stack_t *stk);
+StackErrors StackDiv(stack_t *stk);
 
-StackErrors OUT(stack_t *stk);
+StackErrors StackOut(stack_t *stk);
 
-StackErrors SQRT(stack_t *stk);
+StackErrors StackSqrt(stack_t *stk);
 
-StackErrors HLT(stack_t *stk);
+void StackDump(stack_t *stk);
 
 #endif

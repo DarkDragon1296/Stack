@@ -8,18 +8,18 @@ TARGET_DIR = ./build/
 
 all: setup
 
-setup: main.o stack.o stack_operations.o
+setup: $(TARGET_DIR)main.o $(TARGET_DIR)stack.o $(TARGET_DIR)stack_operations.o
 	$(CC) $(TARGET_DIR)main.o $(TARGET_DIR)stack.o $(TARGET_DIR)stack_operations.o -o $(TARGET_DIR)$(TARGET_FILE)
 
-main.o: main.cpp stack.h
+$(TARGET_DIR)main.o: main.cpp stack.h
 	mkdir -p $(TARGET_DIR)
 	$(CC) $(CFLAGS) main.cpp -o $(TARGET_DIR)main.o
 
-stack.o: stack.cpp stack_operations.cpp stack.h
+$(TARGET_DIR)stack.o: stack.cpp stack_operations.cpp stack.h
 	mkdir -p $(TARGET_DIR)
 	$(CC) $(CFLAGS) stack.cpp -o $(TARGET_DIR)stack.o
 
-stack_operations.o: stack_operations.cpp
+$(TARGET_DIR)stack_operations.o: stack_operations.cpp
 	mkdir -p $(TARGET_DIR)
 	$(CC) $(CFLAGS) stack_operations.cpp -o $(TARGET_DIR)stack_operations.o
 

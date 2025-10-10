@@ -24,11 +24,41 @@ int main(int argc, char *argv[])
     int elements_amount = fread(buff, sizeof(int), buff_size, src); 
     stack_t stk1 = {};
 
-    StackInit(&stk1, 16);
+    StackInit(&stk1, 1);
 
-    for (int i = 0; i < elements_amount; i++)
+    int i = 0;
+
+    while (i < elements_amount)
     {
-        
+        StackDump(&stk1);
+
+        switch (buff[i])
+        {
+            case PUSH:
+                i++;
+                StackPush(&stk1, buff[i]);
+                break;
+            case ADD:
+                StackAdd(&stk1);
+                break;
+            case SUB:
+                StackSub(&stk1);
+                break;
+            case MUL:
+                StackMul(&stk1);
+                break;
+            case DIV:
+                StackDiv(&stk1);
+                break;
+            case SQRT:
+                StackSqrt(&stk1);
+                break;
+            case OUT:
+                StackOut(&stk1);
+                break;
+        }
+
+        i++;
     }
 
     StackDestroy(&stk1);
@@ -36,9 +66,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 // TODO
-// StackDump
 // StackVerify
-// Чтение из файла (бинарного)
 // Добавить защиту (см конспект)
 // Регистры
 // Канареечная защита

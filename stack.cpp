@@ -7,6 +7,9 @@ StackErrors StackInit(stack_t *stk, const size_t capacity)
 {
     assert(stk);
 
+    if (capacity < 1)
+        return STACK_CALLOC_ERROR;
+
     stk->data = (int *)calloc(capacity, sizeof(int));
 
     if (stk->data == NULL)
@@ -23,9 +26,9 @@ StackErrors StackPush(stack_t *stk, const int value)
 
     if (stk->capacity == stk->elemets_amount)
     {
-        int *temp = (int *)realloc(&stk->data, stk->capacity * 2);
+        int *temp = (int *)realloc(stk->data, stk->capacity * 2);
         
-        if (temp == NULL || temp == nullptr)
+        if (temp == NULL)
             return STACK_REALLOC_ERROR;
         
         stk->data = temp;
