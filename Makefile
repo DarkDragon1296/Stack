@@ -23,14 +23,13 @@ $(TARGET_DIR)stack_operations.o: stack_operations.cpp
 	mkdir -p $(TARGET_DIR)
 	$(CC) $(CFLAGS) stack_operations.cpp -o $(TARGET_DIR)stack_operations.o
 
-asm.exe: asm.cpp
-	mkdir -p $(TARGET_DIR)
-	$(CC) $(CFLAGS) asm.cpp -o $(TARGET_DIR)asm.exe
+asm: asm.cpp asm_codes.h
+	$(CC) $(CFLAGS) asm.cpp -o asm.exe
 
 run:
 	$(TARGET_DIR)$(TARGET_FILE) asmb.txt
 
 clean:
-	rm -f $(TARGET_DIR)*.o $(TARGET_DIR)$(TARGET_FILE)
+	rm -f $(TARGET_DIR)*.o *.exe $(TARGET_DIR)$(TARGET_FILE)
 
 .PHONY: clean all setup run

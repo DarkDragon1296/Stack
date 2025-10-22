@@ -4,6 +4,7 @@
 enum AsmCodes
 {
     PUSH = 1,
+    POP,
     ADD,
     SUB,
     MUL,

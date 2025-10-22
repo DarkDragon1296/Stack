@@ -43,7 +43,7 @@ StackErrors StackPush(stack_t *stk, const int value)
 
 StackErrors StackPop(stack_t *stk, int *result)
 {
-    assert(stk); // TODO: StackVerify
+    assert(stk);
 
     if (stk->elemets_amount == 0)
         return STACK_ELEMENTS_MISSING;
@@ -51,6 +51,22 @@ StackErrors StackPop(stack_t *stk, int *result)
     stk->elemets_amount--;
     *result = stk->data[stk->elemets_amount];
     stk->data[stk->elemets_amount] = STACK_POISON;
+
+    return NO_ERRORS;
+}
+
+StackErrors StackPopReg(stack_t *stk, SPU *processor, int reg_index)
+{
+    assert(stk);
+
+    if (stk->elemets_amount == 0)
+        return STACK_ELEMENTS_MISSING;
+
+    int temp = 0;
+
+    StackPop(stk, &temp);
+
+    processor->registers[reg_index] = temp;
 
     return NO_ERRORS;
 }

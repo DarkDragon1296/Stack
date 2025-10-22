@@ -5,7 +5,8 @@
 
 int main(int argc, char *argv[])
 {   
-    const size_t buff_size = 64 * sizeof(char);
+    const size_t BUFF_SIZE = 128; // Максимальное число обрабатываемых комманд
+    const size_t COMMAND_SIZE = 64 * sizeof(char); // Максимальный размер комманд
 
     if (argc < 3)
     {
@@ -22,58 +23,58 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    int buff[BUFF_SIZE] = {};
+    int command_counter = 0;
+    
     while (true)
     {
-        char buff[buff_size] = "";
+        char command[COMMAND_SIZE] = "";
 
-        fscanf(src, "%63s", buff);
+        fscanf(src, "%63s", command);
 
-        if (!strcmp(buff, "HLT"))
+        if (!strcmp(command, "HLT"))
             break;
 
-        if (!strcmp(buff, "PUSH"))
+        if (!strcmp(command, "PUSH"))
         {
-            AsmCodes code = PUSH;
             int value = 0;
-
-            fwrite(&code, sizeof(code), 1, target);
             fscanf(src, "%d", &value);
             
-            fwrite(&value, sizeof(value), 1, target);
+            buff[command_counter++] = PUSH;
+            buff[command_counter++] = value;
         }
-        else if (!strcmp(buff, "ADD"))
+        else if (!strcmp(command, "POP"))
         {
-            AsmCodes code = ADD;
-            fwrite(&code, sizeof(code), 1, target);
-        }
-        else if (!strcmp(buff, "SUB"))
-        {
-            AsmCodes code = SUB;
-            fwrite(&code, sizeof(code), 1, target);
-        }
-        else if (!strcmp(buff, "MUL"))
-        {
-            AsmCodes code = MUL;
-            fwrite(&code, sizeof(code), 1, target);
-        }
-        else if (!strcmp(buff, "DIV"))
-        {
-            AsmCodes code = DIV;
-            fwrite(&code, sizeof(code), 1, target);
-        }
-        else if (!strcmp(buff, "OUT"))
-        {
-            AsmCodes code = OUT;
-            int value = 0;
+            char temp[10] = "";
 
-            fwrite(&code, sizeof(code), 1, target);
-        }
-        else if (!strcmp(buff, "SQRT"))
-        {
-            AsmCodes code = SQRT;
-            int value = 0;
+            fgets(temp, 9, src);
 
-            fwrite(&code, sizeof(code), 1, target);
+            buff[command_counter++] = POP;
+            buff[command_counter++] = temp[1] - 'A' + 1;
+        }
+        else if (!strcmp(command, "ADD"))
+        {
+            buff[command_counter++] = ADD;
+        }
+        else if (!strcmp(command, "SUB"))
+        {
+            buff[command_counter++] = SUB;
+        }
+        else if (!strcmp(command, "MUL"))
+        {
+            buff[command_counter++] = MUL;
+        }
+        else if (!strcmp(command, "DIV"))
+        {
+            buff[command_counter++] = DIV;
+        }
+        else if (!strcmp(command, "OUT"))
+        {
+            buff[command_counter++] = OUT;
+        }
+        else if (!strcmp(command, "SQRT"))
+        {
+            buff[command_counter++] = OUT;
         }
         else
         {
@@ -81,6 +82,8 @@ int main(int argc, char *argv[])
             return -1;
         }
     }
+
+    fwrite(buff, sizeof(int), command_counter, target);
 
     return 0;
 }

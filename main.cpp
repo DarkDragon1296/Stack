@@ -4,8 +4,6 @@
 
 int main(int argc, char *argv[])
 {
-    const int buff_size = 128 * sizeof(int);
-
     if (argc < 2)
     {
         printf("Error opening file\n");
@@ -20,23 +18,24 @@ int main(int argc, char *argv[])
         return -1;
     }   
 
-    int buff[buff_size] = {};
-    int elements_amount = fread(buff, sizeof(int), buff_size, src); 
+    SPU processor = {};
+
+    processor.elements_amount = fread(processor.buff, sizeof(int), SPU_BUFF_SIZE, src); 
     stack_t stk1 = {};
 
     StackInit(&stk1, 1);
 
-    int i = 0;
-
-    while (i < elements_amount)
+    while (processor.marker < processor.elements_amount)
     {
         StackDump(&stk1);
 
-        switch (buff[i])
+        switch (processor.buff[processor.marker])
         {
             case PUSH:
-                i++;
-                StackPush(&stk1, buff[i]);
+                StackPush(&stk1, processor.buff[++processor.marker]);
+                break;
+            case POP:
+                StackPopReg(&stk1, &processor, processor.buff[++processor.marker]);
                 break;
             case ADD:
                 StackAdd(&stk1);
@@ -58,7 +57,7 @@ int main(int argc, char *argv[])
                 break;
         }
 
-        i++;
+        processor.marker++;
     }
 
     StackDestroy(&stk1);
@@ -66,7 +65,10 @@ int main(int argc, char *argv[])
     return 0;
 }
 // TODO
+// Структура SPU {stk, total commands, command index, buff}
 // StackVerify
 // Добавить защиту (см конспект)
 // Регистры
 // Канареечная защита
+// Jump
+// Оперативка
